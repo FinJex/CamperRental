@@ -1,0 +1,30 @@
+.nav {
+  justify-self: center;
+}
+
+.list {
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+
+
+.link {
+  display: inline-block; 
+  transition: transform 0.2s ease;
+  color: #101828;
+  font-weight: 500;
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 24px;  
+}
+
+.link:hover,
+.link:focus-visible {
+  transform: scale(1.1);
+}
+
+.active {
+  color: #829B91;
+}

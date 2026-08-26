@@ -44,4 +44,10 @@
   border-radius: 28px;
   border: none;
   cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.homeButton:hover,
+.homeButton:focus-visible {
+  background-color: #6D7B75;
 }
