@@ -9,3 +9,11 @@
   padding-left: 64px;
   justify-self: start;
 }
+
+.headerHome {
+  background-color: #ffffff;
+}
+
+.headerGray {
+  background-color: #f7f7f7;
+}
