@@ -5,6 +5,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import { fetchCampers } from "@/lib/api/cumper";
 import Filters from "@/components/Filters/Filters";
 import css from "./page.module.css";
+import CamperCard from "@/components/CamperCard/CamperCard";
 
 const PER_PAGE = 4;
 
@@ -47,19 +48,26 @@ export default function CatalogPage() {
   const campers = data?.pages.flatMap((page) => page.campers) ?? [];
 
   return (
-    <section className={css.catalogSection}>
-      <Filters />
-      <ul>
-        {campers.map((camper) => (
-          <li key={camper.id}>{camper.name}</li>
-        ))}
-      </ul>
+<section className={css.catalogSection}>
+  <Filters />
 
-      {hasNextPage && (
-        <button onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
-          {isFetchingNextPage ? "Завантаження..." : "Load more"}
-        </button>
-      )}
-    </section>
+  <div className={css.campersColumn}>
+    <ul className={css.camperList}>
+      {campers.map((camper) => (
+        <CamperCard key={camper.id} camper={camper} />
+      ))}
+    </ul>
+
+    {hasNextPage && (
+      <button
+        className={css.loadMoreButton}
+        onClick={() => fetchNextPage()}
+        disabled={isFetchingNextPage}
+      >
+        {isFetchingNextPage ? "Loading..." : "Load more"}
+      </button>
+    )}
+  </div>
+</section>
   );
 }

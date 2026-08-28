@@ -26,6 +26,15 @@ export default function Filters() {
     router.push(`/catalog?${params.toString()}`);
   };
 
+    const handleClear = () => {
+    setLocation("");
+    setForm("");
+    setEngine("");
+    setTransmission("");
+
+
+  };
+
   return (
     <form onSubmit={handleSubmit} className={css.catalogForm}>
       <label className={css.labelLocation}>
@@ -97,7 +106,13 @@ export default function Filters() {
         ))}
       </fieldset>
 
-      <button type="submit">Search</button>
+      <button type="submit" className={css.buttonSearch} onClick={handleSubmit}>Search</button>
+      <button type="submit" className={css.buttonClear} onClick={handleClear}>
+  <svg className={css.closeIcon} width={10.5} height={10.5}>
+    <use href="/icons/sprite.svg#icon-close" />
+  </svg>
+        Clear filters
+      </button>
     </form>
   );
 }

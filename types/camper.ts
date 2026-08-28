@@ -22,6 +22,7 @@ export interface CamperListItemDto {
   length: string;
   width: string;
   height: string;
+  description: string;
   tank: string;
   consumption: string;
   transmission: Transmission;
