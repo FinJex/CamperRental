@@ -1,31 +1,34 @@
 "use client";
 
-import { useSearchParams } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { fetchCampers } from "@/lib/api/cumper";
 import Filters from "@/components/Filters/Filters";
 import css from "./page.module.css";
 import CamperCard from "@/components/CamperCard/CamperCard";
 import Loader from "@/components/Loader/Loader";
+import NotFound from "@/components/NotFound/NotFound";
 
 const PER_PAGE = 4;
 
 export default function CatalogPage() {
   const searchParams = useSearchParams();
+  const router = useRouter();
 
   const location = searchParams.get("location") ?? undefined;
   const form = searchParams.get("form") ?? undefined;
   const transmission = searchParams.get("transmission") ?? undefined;
   const engine = searchParams.get("engine") ?? undefined;
 
-  const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-    isLoading,
-    isError,
-  } = useInfiniteQuery({
+const {
+  data,
+  fetchNextPage,
+  hasNextPage,
+  isFetchingNextPage,
+  isLoading,
+  isFetching,
+  isError,
+} = useInfiniteQuery({
     queryKey: ["campers", { location, form, transmission, engine }],
     queryFn: ({ pageParam }) =>
       fetchCampers({
@@ -43,29 +46,40 @@ export default function CatalogPage() {
     },
   });
 
-  if (isError) return <p>Сталася помилка при завантаженні кемперів.</p>;
+  if (isError) return <p>Something went wrong while loading campers. Please try again later.</p>;
 
   const campers = data?.pages.flatMap((page) => page.campers) ?? [];
+    const showNotFound = !isLoading && !isFetching && campers.length === 0;
+
+  const handleClearFilters = () => {
+    router.push("/catalog");
+  };
 
 return (
   <section className={css.catalogSection}>
-    <Filters />
+    <Filters key={searchParams.toString()} />
 
     <div className={css.campersColumn}>
       {isLoading && <Loader />}
 
       {!isLoading && (
         <>
-          <ul className={css.camperList}>
-            {campers.map((camper) => (
-              <CamperCard key={camper.id} camper={camper} />
-            ))}
-          </ul>
+          {showNotFound ? (
+            <NotFound onClearFilters={handleClearFilters} />
+          ) : (
+            <>
+              <ul className={css.camperList}>
+                {campers.map((camper) => (
+                  <CamperCard key={camper.id} camper={camper} />
+                ))}
+              </ul>
 
-          {hasNextPage && (
-            <button onClick={() => fetchNextPage()} disabled={isFetchingNextPage} className={css.loadMoreButton}>
-              {isFetchingNextPage ? "Loading..." : "Load more"}
-            </button>
+              {hasNextPage && (
+                <button onClick={() => fetchNextPage()} disabled={isFetchingNextPage} className={css.loadMoreButton}>
+                  {isFetchingNextPage ? "Loading..." : "Load more"}
+                </button>
+              )}
+            </>
           )}
         </>
       )}

@@ -26,13 +26,8 @@ export default function Filters() {
     router.push(`/catalog?${params.toString()}`);
   };
 
-    const handleClear = () => {
-    setLocation("");
-    setForm("");
-    setEngine("");
-    setTransmission("");
-
-
+  const handleClear = () => {
+    router.push("/catalog");
   };
 
   return (
@@ -40,19 +35,19 @@ export default function Filters() {
       <label className={css.labelLocation}>
         Location
         <div className={css.inputWrapper}>
-   <svg className={css.locationIcon} width={20} height={20}>
-    <use href="/icons/sprite.svg#icon-location" />
-  </svg>
-        <input
-        className={css.inputLocation}
-          type="text"
-          value={location}
-          onChange={(e) => setLocation(e.target.value)}
-        />
+          <svg className={css.locationIcon} width={20} height={20}>
+            <use href="/icons/sprite.svg#icon-location" />
+          </svg>
+          <input
+            className={css.inputLocation}
+            type="text"
+            value={location}
+            onChange={(e) => setLocation(e.target.value)}
+          />
         </div>
       </label>
 
-    <h2 className={css.filtersTitle}>Filters</h2>
+      <h2 className={css.filtersTitle}>Filters</h2>
 
       <fieldset className={css.fieldset}>
         <legend className={css.legend}>Camper form</legend>
@@ -86,7 +81,6 @@ export default function Filters() {
             {value}
           </label>
         ))}
-        
       </fieldset>
 
       <fieldset className={css.fieldset}>
@@ -106,11 +100,11 @@ export default function Filters() {
         ))}
       </fieldset>
 
-      <button type="submit" className={css.buttonSearch} onClick={handleSubmit}>Search</button>
-      <button type="submit" className={css.buttonClear} onClick={handleClear}>
-  <svg className={css.closeIcon} width={10.5} height={10.5}>
-    <use href="/icons/sprite.svg#icon-close" />
-  </svg>
+      <button type="submit" className={css.buttonSearch}>Search</button>
+      <button type="button" className={css.buttonClear} onClick={handleClear}>
+        <svg className={css.closeIcon} width={10.5} height={10.5}>
+          <use href="/icons/sprite.svg#icon-close" />
+        </svg>
         Clear filters
       </button>
     </form>
