@@ -5,12 +5,15 @@ import Image from "next/image";
 import css from "./Header.module.css";
 import Nav from "../Header/Nav";
 import { usePathname } from "next/navigation";
+import { useIsFetching } from "@tanstack/react-query";
 
 export default function Header() {
     const pathname = usePathname();
-  const isHome = pathname === "/";
+    const isFetching = useIsFetching({ queryKey: ["campers"] });
+    const isHome = pathname === "/";
+    const forceWhite = isFetching > 0;
   return (
-    <header className={`${css.header} ${isHome ? css.headerHome : css.headerGray}`}>
+    <header className={`${css.header} ${isHome || forceWhite ? css.headerHome : css.headerGray}`}>
           <Link className={css.logo} href="/" aria-label="TravelTrucks— головна">
       <Image
         src="/icons/logo.svg"

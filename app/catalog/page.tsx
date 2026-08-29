@@ -6,6 +6,7 @@ import { fetchCampers } from "@/lib/api/cumper";
 import Filters from "@/components/Filters/Filters";
 import css from "./page.module.css";
 import CamperCard from "@/components/CamperCard/CamperCard";
+import Loader from "@/components/Loader/Loader";
 
 const PER_PAGE = 4;
 
@@ -42,32 +43,34 @@ export default function CatalogPage() {
     },
   });
 
-  if (isLoading) return <p>Завантаження...</p>;
   if (isError) return <p>Сталася помилка при завантаженні кемперів.</p>;
 
   const campers = data?.pages.flatMap((page) => page.campers) ?? [];
 
-  return (
-<section className={css.catalogSection}>
-  <Filters />
+return (
+  <section className={css.catalogSection}>
+    <Filters />
 
-  <div className={css.campersColumn}>
-    <ul className={css.camperList}>
-      {campers.map((camper) => (
-        <CamperCard key={camper.id} camper={camper} />
-      ))}
-    </ul>
+    <div className={css.campersColumn}>
+      {isLoading && <Loader />}
 
-    {hasNextPage && (
-      <button
-        className={css.loadMoreButton}
-        onClick={() => fetchNextPage()}
-        disabled={isFetchingNextPage}
-      >
-        {isFetchingNextPage ? "Loading..." : "Load more"}
-      </button>
-    )}
-  </div>
-</section>
-  );
+      {!isLoading && (
+        <>
+          <ul className={css.camperList}>
+            {campers.map((camper) => (
+              <CamperCard key={camper.id} camper={camper} />
+            ))}
+          </ul>
+
+          {hasNextPage && (
+            <button onClick={() => fetchNextPage()} disabled={isFetchingNextPage} className={css.loadMoreButton}>
+              {isFetchingNextPage ? "Loading..." : "Load more"}
+            </button>
+          )}
+        </>
+      )}
+    </div>
+  </section>
+);
 }
+
