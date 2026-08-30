@@ -80,6 +80,7 @@ margin-right: 24px;
   flex-wrap: wrap;
   gap: 8px;
   margin-bottom: 24px;
+  text-transform: capitalize;
 }
 
 .tag {

@@ -1,5 +1,6 @@
 "use client";
 
+import { Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import { fetchCampers } from "@/lib/api/cumper";
@@ -11,7 +12,7 @@ import NotFound from "@/components/NotFound/NotFound";
 
 const PER_PAGE = 4;
 
-export default function CatalogPage() {
+function CatalogContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
 
@@ -20,15 +21,15 @@ export default function CatalogPage() {
   const transmission = searchParams.get("transmission") ?? undefined;
   const engine = searchParams.get("engine") ?? undefined;
 
-const {
-  data,
-  fetchNextPage,
-  hasNextPage,
-  isFetchingNextPage,
-  isLoading,
-  isFetching,
-  isError,
-} = useInfiniteQuery({
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+    isLoading,
+    isFetching,
+    isError,
+  } = useInfiniteQuery({
     queryKey: ["campers", { location, form, transmission, engine }],
     queryFn: ({ pageParam }) =>
       fetchCampers({
@@ -49,42 +50,53 @@ const {
   if (isError) return <p>Something went wrong while loading campers. Please try again later.</p>;
 
   const campers = data?.pages.flatMap((page) => page.campers) ?? [];
-    const showNotFound = !isLoading && !isFetching && campers.length === 0;
+  const showNotFound = !isLoading && !isFetching && campers.length === 0;
 
   const handleClearFilters = () => {
     router.push("/catalog");
   };
 
-return (
-  <section className={css.catalogSection}>
-    <Filters key={searchParams.toString()} />
+  return (
+    <section className={css.catalogSection}>
+      <Filters key={searchParams.toString()} />
 
-    <div className={css.campersColumn}>
-      {isLoading && <Loader />}
+      <div className={css.campersColumn}>
+        {isLoading && <Loader />}
 
-      {!isLoading && (
-        <>
-          {showNotFound ? (
-            <NotFound onClearFilters={handleClearFilters} />
-          ) : (
-            <>
-              <ul className={css.camperList}>
-                {campers.map((camper) => (
-                  <CamperCard key={camper.id} camper={camper} />
-                ))}
-              </ul>
+        {!isLoading && (
+          <>
+            {showNotFound ? (
+              <NotFound onClearFilters={handleClearFilters} />
+            ) : (
+              <>
+                <ul className={css.camperList}>
+                  {campers.map((camper) => (
+                    <CamperCard key={camper.id} camper={camper} />
+                  ))}
+                </ul>
 
-              {hasNextPage && (
-                <button onClick={() => fetchNextPage()} disabled={isFetchingNextPage} className={css.loadMoreButton}>
-                  {isFetchingNextPage ? "Loading..." : "Load more"}
-                </button>
-              )}
-            </>
-          )}
-        </>
-      )}
-    </div>
-  </section>
-);
+                {hasNextPage && (
+                  <button
+                    onClick={() => fetchNextPage()}
+                    disabled={isFetchingNextPage}
+                    className={css.loadMoreButton}
+                  >
+                    {isFetchingNextPage ? "Loading..." : "Load more"}
+                  </button>
+                )}
+              </>
+            )}
+          </>
+        )}
+      </div>
+    </section>
+  );
 }
 
+export default function CatalogPage() {
+  return (
+    <Suspense fallback={<Loader />}>
+      <CatalogContent />
+    </Suspense>
+  );
+}

@@ -1,36 +1,64 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# TravelTrucks
 
-## Getting Started
+TravelTrucks is a web application for browsing and booking campervans for your next road trip. Users can explore a catalog of available campers, filter them by location, body type, engine, and transmission, view detailed information about each vehicle, read reviews, and send a booking request.
 
-First, run the development server:
+## Features
+
+- **Home page** with a hero banner and a call-to-action leading to the catalog
+- **Catalog page** with a list of campers fetched from the backend
+- **Filtering** by location (text search), camper form, engine type, and transmission
+- **"Load more" pagination** — loads 4 additional campers at a time, respecting active filters
+- **Camper details page** with an image gallery, full vehicle specifications, user reviews, and a booking form
+- **Booking form** with client-side validation for name and email
+- **Loading and empty states** — custom loaders and a "No campers found" screen when filters return no results
+- Fully responsive layout built with CSS Modules
+
+## Tech stack
+
+- [Next.js](https://nextjs.org) (App Router) — React framework
+- [TypeScript](https://www.typescriptlang.org) — static typing
+- [TanStack Query](https://tanstack.com/query) — server state management, caching, and infinite pagination
+- CSS Modules — component-scoped styling
+
+## Getting started
+
+### Prerequisites
+
+- Node.js 18+ installed
+
+### Installation
+
+1. Clone the repository:
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+   git clone https://github.com/<FinJex>/CamperRental.git
+   cd CamperRental
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+2. Install dependencies:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+   npm install
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+3. Create a `.env.local` file in the project root and add the API base URL:
 
-## Learn More
 
-To learn more about Next.js, take a look at the following resources:
+4. Run the development server:
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+```bash
+   npm run dev
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+5. Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-## Deploy on Vercel
+## Usage
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+- Visit the home page and click **View Now** to go to the catalog.
+- Use the sidebar on the catalog page to filter campers by location, camper form, engine, or transmission, then press **Search**.
+- Click **Load more** to fetch additional campers matching the current filters.
+- Click **Show more** on any camper card to open its details page in a new tab, where you can view the gallery, full specifications, reviews, and submit a booking request.
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Author
+
+Developed by Vasylovych Maksym as part of a full-stack development learning project.

@@ -1,0 +1,48 @@
+.wrapper {
+    background-color: #F7F7F7;
+    border-radius: 15px;
+    border: none;
+    padding: 24px;
+}
+
+.title {
+    font-weight: 600;
+    font-size: 24px;
+    letter-spacing: 0;
+    line-height: 32px;
+    color: #101828;
+    margin-bottom: 8px;
+    cursor: default;
+}
+
+.metaRow {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.metaItem {
+  display: flex;
+  align-items: center;
+  gap: 4px; 
+  cursor: default;
+}
+
+.price {
+    font-weight: 600;
+    font-size: 24px;
+    letter-spacing: 0;
+    line-height: 32px;
+    color: #101828; 
+    cursor: default;
+    margin-bottom: 24px;
+}
+
+.description {
+  color: #475467;
+  font-weight: 400;
+  font-size: 16px;
+  margin-bottom: 24px;
+  cursor: default;
+}
