@@ -27,6 +27,10 @@ export default function Filters() {
   };
 
   const handleClear = () => {
+  setLocation("");
+  setForm("");
+  setEngine("");
+  setTransmission("");
     router.push("/catalog");
   };
 
